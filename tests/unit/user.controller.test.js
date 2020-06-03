@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 
 const newUser = require("../mock-data/new-user.json");
 const errUser = require('../mock-data/error-user.json');
+const errUser4 = require('../mock-data/error-user4.json')
 
 UserModel.create = jest.fn();
 UserModel.findOne = jest.fn();
@@ -32,11 +33,11 @@ describe("UserController.create", () => {
     expect(bcrypt.hash).toBeCalledWith(req.body.password, 10);
   });
   it("should Call UserModel.create", async () => {
-    bcrypt.hash.mockReturnValue("amenboakainaaiueo");
+    bcrypt.hash.mockReturnValue("Amenboakainaa357");
     await UserController.create(req, res, next);
     expect(UserModel.create).toBeCalledWith({
       email: req.body.email,
-      password: "amenboakainaaiueo",
+      password: "Amenboakainaa357",
     });
     expect(res.statusCode).toBe(201);
     expect(res._isEndCalled()).toBeTruthy();
@@ -60,12 +61,16 @@ describe("UserController.create", () => {
 
 describe("UserController.create error case", () => {
 
-  beforeEach(() => {
+  it("should handle errors in the no email address case",  async () => {
     req.body = errUser;
+    const errorMessage = {message: "password info should be set"};
+    await UserController.create(req, res, next);
+    expect(next).toBeCalledWith(errorMessage);
   });
 
-  it("should handle errors in the no email address case",  async () => {
-    const errorMessage = {message: "password info should be set"};
+  it("should handle errors in the password too weak case",  async () => {
+    req.body = errUser4;
+    const errorMessage = { message: 'Passowrd is too weak.'};
     await UserController.create(req, res, next);
     expect(next).toBeCalledWith(errorMessage);
   });

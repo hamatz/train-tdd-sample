@@ -9,6 +9,14 @@ exports.create = async (req, res, next) => {
     next({message: "password info should be set"});
   }
 
+  const pwdtxt = String(req.body.password);
+  const regex = /((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/g;
+
+  const found = pwdtxt.match(regex);
+  if(!found) {
+    next({ message: 'Passowrd is too weak.'});
+  }
+
   let hash;
   let user;
   try {
@@ -23,7 +31,7 @@ exports.create = async (req, res, next) => {
       password: hash,
     });
 
-    res.status(201).json({ message: "User created!" });
+    res.status(201).json({ message: "User created!"});
   } catch (err2) {
     next(err2);
   }
