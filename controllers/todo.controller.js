@@ -1,8 +1,19 @@
 const TodoModel = require("../model/todo.model");
 
 exports.create = async (req, res, next) => {
+
+  const newTodo = {
+    title: req.body.title,
+    description: req.body.description,
+    status: req.body.status,
+  };
+
+  if( process.env.NODE_ENV != 'unit'){
+    newTodo.creator = req.userData.userId;
+  }
+
   try {
-    const createdModel = await TodoModel.create(req.body);
+    const createdModel = await TodoModel.create(newTodo);
     res.status(201).send(createdModel);
   } catch (err) {
     next(err);
@@ -32,33 +43,49 @@ exports.getOneById = async (req, res, next) => {
 };
 
 exports.update = async (req, res, next) => {
-  try {
-    const updatedModel = await TodoModel.findByIdAndUpdate(
-      req.params.todoId,
-      req.body,
-      {
-        new: true,
-        useFindAndModify: false,
-      }
-    );
-    if (!updatedModel) {
-      res.status(404).send({ message: "Item not found." });
-      return;
+
+  const newTodo = {
+    title: req.body.title,
+    description: req.body.description,
+    status: req.body.status,
+  };
+
+  if( process.env.NODE_ENV != 'unit'){
+    newTodo.creator = req.userData.userId;
+  }
+
+  let result;
+
+  try{
+    if( process.env.NODE_ENV != 'unit'){
+      result = await TodoModel.updateOne({ _id: req.params.todoId, creator: req.userData.userId }, newTodo);
+    } else {
+      result = await TodoModel.updateOne({ _id: req.params.todoId }, newTodo);
     }
-    res.status(200).send(updatedModel);
+    if (result.n > 0) {
+      res.status(200).json({ message: "Update successful!" });
+    } else {
+      res.status(404).json({ message: "Not found!" });
+    }
   } catch (err) {
     next(err);
   }
 };
 
 exports.delete = async (req, res, next) => {
-  try {
-    const result = await TodoModel.findByIdAndDelete(req.params.todoId);
-    if (!result) {
-      res.status(404).send({ message: "Item not found." });
-      return;
+
+  let result;
+  try{
+    if( process.env.NODE_ENV != 'unit'){
+      result = await TodoModel.deleteOne({ _id: req.params.todoId, creator: req.userData.userId });
+    } else {
+      result = await TodoModel.deleteOne({ _id: req.params.todoId });
     }
-    res.status(200).send(result);
+    if (result.n > 0) {
+      res.status(200).json({ message: "Delete successful!" });
+    } else {
+      res.status(404).json({ message: "Not found!" });
+    }
   } catch (err) {
     next(err);
   }

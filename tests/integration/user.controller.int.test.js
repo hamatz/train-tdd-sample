@@ -5,6 +5,7 @@ const newUser = require("../mock-data/new-user.json");
 const errUser = require("../mock-data/error-user.json");
 const errUser2 = require("../mock-data/error-user2.json");
 const errUser3 = require("../mock-data/error-user3.json");
+const errUser4 = require('../mock-data/error-user4.json');
 
 const endpointUrl = "/user/";
 
@@ -58,7 +59,22 @@ describe(endpointUrl + "signup", () => {
       });
     }
   );
-});
+  
+  it(
+    "should return error 500  on too weak password with POST" +
+      endpointUrl +
+      "signup",
+    async () => {
+      const response = await request(app)
+        .post(endpointUrl + "signup")
+        .send(errUser4);
+      expect(response.statusCode).toBe(500);
+      expect(response.body).toStrictEqual({
+        message: 'Passowrd is too weak.',
+      });
+    }
+  );
+  });
 
 describe(endpointUrl + "login", () => {
   test("POST " + endpointUrl + "login", async () => {

@@ -10,7 +10,7 @@
   },
   "keywords": [],
   "author": "hamatz",
-  "license": "ApacheV2",
+  "license": "Apache-2.0",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "debug": "^4.1.1",

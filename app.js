@@ -8,7 +8,7 @@ mongodbConnecter.connect();
 
 app.use(express.json());
 
-app.use("/todos", todoRoutes);
+app.use("/todo", todoRoutes);
 app.use("/user", userRoutes);
 
 app.use((error, req, res, next) => {

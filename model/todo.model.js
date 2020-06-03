@@ -33,6 +33,10 @@ const TodoSchema = new mongoose.Schema({
     enum: ["OPEN", "IN_PROGRESS", "IN_REVIEW", "DONE"],
     required: true,
   },
+  creator: {
+     type: mongoose.Schema.Types.ObjectId, 
+     ref: "User", 
+     required: true }
 });
 
 const TodoModel = mongoose.model("Todo", TodoSchema);
