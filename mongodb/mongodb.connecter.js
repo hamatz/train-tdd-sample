@@ -4,7 +4,9 @@ const debug = require("debug")("tdd-train:mongodb-connecter");
 const connect = async () => {
   try {
     await mongoose.connect(
-      "mongodb+srv://<you should use your own information for this>",
+      "mongodb+srv://tdd-train-admin:"
+       + process.env.MONGO_ATLAS_PW + 
+       "@cluster0-ejkue.gcp.mongodb.net/test?retryWrites=true&w=majority",
       { useUnifiedTopology: true,  useNewUrlParser: true  } 
     );
   } catch (err) {
