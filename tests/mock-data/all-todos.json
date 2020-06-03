@@ -1,0 +1,12 @@
+[
+    {
+        "title": "テストだよ",
+        "description": "とりあえず登録できているかテスト",
+        "status": "OPEN"
+    },
+    {
+        "title": "テストだよ2",
+        "description": "２個めのデータ",
+        "status": "OPEN"
+    }
+]

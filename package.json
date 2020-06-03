@@ -1,0 +1,25 @@
+{
+  "name": "tdd-train-sample",
+  "version": "0.1.0",
+  "description": "Todo application sample which will be used for training purpose.",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest --watchAll",
+    "test:cov": "jest --coverage"
+  },
+  "keywords": [],
+  "author": "hamatz",
+  "license": "ApacheV2",
+  "dependencies": {
+    "debug": "^4.1.1",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.13",
+    "mongoose-unique-validator": "^2.0.3",
+    "mongoose-validator": "^2.1.0",
+    "node-mocks-http": "^1.8.1"
+  },
+  "devDependencies": {
+    "jest": "^26.0.1",
+    "supertest": "^4.0.2"
+  }
+}
