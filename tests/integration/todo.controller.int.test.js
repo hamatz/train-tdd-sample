@@ -12,10 +12,12 @@ const newTodo3 = require("../mock-data/new-todo3.json");
 
 const endpointUrl = "/todos/";
 
+
 let firstTodo, newTodoId;
 const idNotExist = "5ec10656c358f13d58567eaa";
 
 describe(endpointUrl, () => {
+
   it("POST " + endpointUrl, async () => {
     const response = await request(app).post(endpointUrl).send(newTodo);
     expect(response.statusCode).toBe(201);
